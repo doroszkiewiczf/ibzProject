@@ -1,4 +1,0 @@
-0:0:0:0:0:0:0:1 - - [01/Dec/2018:13:39:16 +0100] "GET /group/2/event HTTP/1.1" 200 270 http-bio-8080-exec-1 334
-0:0:0:0:0:0:0:1 - - [01/Dec/2018:13:39:30 +0100] "GET /group/4/event HTTP/1.1" 200 1403 http-bio-8080-exec-2 11
-0:0:0:0:0:0:0:1 - - [01/Dec/2018:13:40:33 +0100] "POST /group/4/event HTTP/1.1" 200 35 http-bio-8080-exec-4 68
-0:0:0:0:0:0:0:1 - - [01/Dec/2018:13:40:41 +0100] "GET /group/4/event HTTP/1.1" 200 1403 http-bio-8080-exec-5 9
