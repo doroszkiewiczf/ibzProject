@@ -1,9 +1,12 @@
 package ibz.edu.spring.service;
 
+import java.rmi.RemoteException;
+
 import java.util.ArrayList;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,4 +34,17 @@ public class StudentServiceImpl implements StudentService {
 		return studentDAO.get(id);
 	}
 
+	public boolean checkLogin(String login, String pass) {
+		ArrayList <Student> studentList = studentDAO.getStudentList();
+		for (Student s: studentList) {
+			if (s.getLogin().equals(login)){
+				if (BCrypt.checkpw(pass, s.getPassword())) {
+					return true;
+				}
+				else
+					return false;
+			}
+		}
+		return false; 
+	}
 }

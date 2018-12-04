@@ -17,5 +17,6 @@ public interface StudentDAO {
 	public ArrayList<Student> listStudents();
 	public long createStudent(String login, String password);
 	public Student get(int id);
+	public ArrayList<Student> getStudentList();
 }
 

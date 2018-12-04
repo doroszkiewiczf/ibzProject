@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class StudentController {
 	public ResponseEntity<?> save(@RequestBody Map<String,String> json){
 		String login = json.get("login");
 		String password = json.get("password");
-		System.out.println(login);
+		password = BCrypt.hashpw(password, BCrypt.gensalt());
 		long id = studentService.createStudent(login, password);
 		return ResponseEntity.ok().body("New student has been saved with ID:" + id);
 	}
@@ -41,6 +42,19 @@ public class StudentController {
 	   Student student = studentService.get(id);
 	   return ResponseEntity.ok().body(student);
 	}
-	
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody Map<String,String> json){
+		String login = json.get("login");
+		String password = json.get("password");
+		System.out.println(login);
+		boolean logged = studentService.checkLogin(login, password);
+		if (logged) {
+			String key = BCrypt.hashpw(login, BCrypt.gensalt());
+			return ResponseEntity.ok().body("Zalogowane pomyœlnie:" + key);
+		}
+		else
+			return ResponseEntity.ok().body("Nie zalogowano");
+	}
 	
 }

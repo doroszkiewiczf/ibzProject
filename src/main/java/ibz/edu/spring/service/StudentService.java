@@ -8,4 +8,5 @@ public interface StudentService {
 	public ArrayList<Student> listStudents();
 	public long createStudent(String login, String password);
 	public Student get(int id);
+	public boolean checkLogin(String login, String pass);
 }

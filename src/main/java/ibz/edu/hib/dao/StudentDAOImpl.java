@@ -66,6 +66,22 @@ public class StudentDAOImpl implements StudentDAO{
         session.close();
         return student;
     }
+	public ArrayList<Student> getStudentList(){
+    	Session session = sessionFactory.openSession();
+    	Transaction tx = null;
+    	ArrayList<Student> studentList = null;
+    	 try {
+             tx = session.beginTransaction();
+             studentList = (ArrayList)session.createQuery("FROM Student").list(); 
+             tx.commit();
+          } catch (HibernateException e) {
+             if (tx!=null) tx.rollback();
+             e.printStackTrace(); 
+          } finally {
+             session.close(); 
+          }
+		return studentList;
+    }
 	
 	
 }
