@@ -29,25 +29,13 @@ public class LecturerCommentController {
 	}
 	
 	@PostMapping("/lecturer/{id}/comments")
-	public ResponseEntity<?> save(@RequestParam String author,
-								  @RequestParam String text,
-					              @RequestParam(required = false) LocalDate date,
-					              @RequestParam int difficulty,
-					              @RequestParam int teachingRating,
-					              @RequestParam int rating,
+	public ResponseEntity<?> save(@RequestBody(required = false) LecturerComment comment,
 					              @PathVariable("id") int lectId){
-		LecturerComment comment = new LecturerComment();
-		comment.setAuthor(author);
-		comment.setText(text);
-		if (date!=null) {
-			comment.setDate(date);
-		}else {
+		
+		if (comment.getDate() == null) {
 			comment.setDate(LocalDate.now());
 		}
 		comment.setLecturerId(lectId);
-		comment.setDifficulty(difficulty);
-		comment.setRating(rating);
-		comment.setTeachingRating(teachingRating);
 		long id = lecturerCommentService.createLecturerComment(comment);
 		return ResponseEntity.ok().body("New Comment has been saved with ID:" + id);
 	}	

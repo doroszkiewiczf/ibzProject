@@ -35,10 +35,7 @@ public class LecturerController {
 	}
 	
 	@PostMapping("/lecturer")
-	public ResponseEntity<?> save(@RequestParam("name") String name){
-		Lecturer lecturer = new Lecturer();
-		System.out.println(name);
-		lecturer.setName(name);
+	public ResponseEntity<?> save(@RequestBody(required = false) Lecturer lecturer){
 		lecturer.setIsAccepted(0);
 		long id = lecturerService.createLecturer(lecturer);
 		return ResponseEntity.ok().body("New student has been saved with ID:" + id);

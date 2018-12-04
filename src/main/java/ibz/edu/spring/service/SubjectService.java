@@ -3,6 +3,7 @@ package ibz.edu.spring.service;
 import java.util.ArrayList;
 import java.util.Set;
 
+import ibz.edu.hib.model.Lecturer;
 import ibz.edu.hib.model.Subject;
 
 public interface SubjectService {
@@ -11,4 +12,5 @@ public interface SubjectService {
 	public ArrayList<Subject> listSubjects();
 	public Subject get(int id);
 	public void AddLecturerToSubject(int lecturerId, int subjectId);
+	public Set<Lecturer> getLecturersFromSubject(Subject subject);
 }

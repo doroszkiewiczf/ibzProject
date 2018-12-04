@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,10 +29,8 @@ public class SubjectController {
 	}
 	
 	@PostMapping("/lecturer/{id}/subject")
-	public ResponseEntity<?> saveSubject(@RequestParam String name,
+	public ResponseEntity<?> saveSubject(@RequestBody(required=false) Subject subject,
 										 @PathVariable("id") int lectId){
-		Subject subject = new Subject();
-		subject.setName(name);
 		subject.setIsAccepted(0);
 		long id = subjectService.createSubject(subject);
 		subjectService.AddLecturerToSubject(lectId, (int) id);
@@ -48,5 +47,11 @@ public class SubjectController {
 	public ResponseEntity<Subject> get(@PathVariable("id") int id) {
 		Subject subject = subjectService.get(id);
 	   return ResponseEntity.ok().body(subject);
+	}
+	@GetMapping("/subject/{id}/lecturer")
+	public ResponseEntity<Set<Lecturer>> getLecturersFromSubject(@PathVariable("id") int id){
+		Subject subject = subjectService.get(id);
+		Set<Lecturer> lectSet = subjectService.getLecturersFromSubject(subject);
+		return ResponseEntity.ok().body(lectSet);
 	}
 }

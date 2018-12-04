@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,18 +30,10 @@ public class EventController {
 	}
 	
 	@PostMapping("/group/{id}/event")
-	public ResponseEntity<?> saveEvent(@RequestParam String name,
-									   @RequestParam String desc,
-									   @RequestParam(required = false) LocalDate date,
+	public ResponseEntity<?> saveEvent(@RequestBody(required = false) Event event,
 									   @PathVariable("id") int groupId){
-		Event event = new Event();
-		event.setName(name);
-		event.setDescription(desc);
 		event.setGroupId(groupId);
-		if (date != null) {
-			event.setEventDate(date);
-		}
-		else {
+		if (event.getEventDate() == null) {
 			event.setEventDate(LocalDate.now());
 		}
 		long id = eventService.createEvent(event);

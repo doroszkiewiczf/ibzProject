@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,27 +28,13 @@ public class SubjectCommentController {
 	}
 	
 	@PostMapping("/subject/{id}/comments")
-	public ResponseEntity<?> save(@RequestParam String author,
-								  @RequestParam String text,
-					              @RequestParam(required = false) LocalDate date,
-					              @RequestParam int difficulty,
-					              @RequestParam int workEffort,
-					              @RequestParam int rating,
-					              @RequestParam int lectId,
+	public ResponseEntity<?> save(@RequestBody(required = false) SubjectComment comment,
 					              @PathVariable("id") int subjId){
-		SubjectComment comment = new SubjectComment();
-		comment.setAuthor(author);
-		comment.setText(text);
-		if (date!=null) {
-			comment.setDate(date);
-		}
-		else {
+		
+		if (comment.getDate()==null) {
 			comment.setDate(LocalDate.now());
 		}
-		comment.setLecturerId(lectId);
-		comment.setDifficulty(difficulty);
-		comment.setRating(rating);
-		comment.setWorkEffort(workEffort);
+
 		comment.setSubjectId(subjId);
 		long id = subjectCommentService.createSubjectCommet(comment);
 		return ResponseEntity.ok().body("New Comment has been saved with ID:" + id);

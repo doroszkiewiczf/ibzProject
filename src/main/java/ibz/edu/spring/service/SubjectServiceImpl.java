@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ibz.edu.hib.dao.SubjectDAO;
+import ibz.edu.hib.model.Lecturer;
 import ibz.edu.hib.model.Subject;
 
 @Service
@@ -36,6 +37,10 @@ public class SubjectServiceImpl implements SubjectService{
 
 	public void AddLecturerToSubject(int lecturerId, int subjectId) {
 		subjectDAO.AddLecturerToSubject(lecturerId, subjectId);
+	}
+
+	public Set<Lecturer> getLecturersFromSubject(Subject subject) {
+		return subjectDAO.getLecturersFromSubject(subject);
 	}
 	
 

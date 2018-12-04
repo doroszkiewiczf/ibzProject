@@ -76,4 +76,15 @@ public class SubjectDAOImpl implements SubjectDAO {
     	session.close();
 	}
 
+	public Set<Lecturer> getLecturersFromSubject(Subject subject) {
+    	Session session = sessionFactory.openSession();
+    	System.out.println(subject.getName());
+    	subject =  (Subject) session.get(Subject.class, subject.getId());
+        Set <Lecturer> lectSet = subject.getLecturers();
+        for (Lecturer lect : lectSet) {
+        	System.out.println(lect.getName());
+        }
+        session.close();
+        return lectSet;
+    }
 }
