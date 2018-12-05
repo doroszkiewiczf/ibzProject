@@ -20,6 +20,8 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	private StudentDAO studentDAO;
 	
+	private ArrayList<String> tokenList = new ArrayList<String>();
+	
 	@Transactional
 	public ArrayList<Student> listStudents() {
 		return studentDAO.listStudents();
@@ -46,5 +48,19 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 		return false; 
+	}
+
+	public void addLoginToken(String token) {
+		tokenList.add(token);
+	}
+
+	public boolean checkLoginToken(String token) {
+		for (String key: tokenList) {
+			System.out.println(key);
+			if (key.equals(token)){
+				return true;
+			}
+		}
+		return false;
 	}
 }

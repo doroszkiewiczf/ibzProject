@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ibz.edu.hib.model.Lecturer;
 import ibz.edu.hib.model.Subject;
+import ibz.edu.spring.service.StudentService;
 import ibz.edu.spring.service.SubjectService;
 
 @RestController
@@ -22,19 +24,27 @@ public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;
 	
+	@Autowired
+	private StudentService studentService;
+	
 	@GetMapping("/lecturer/{id}/subject")
-	public ResponseEntity<Set<Subject>> getSubjectFromLecturer(@PathVariable("id") int id){
+	public ResponseEntity<Set<Subject>> getSubjectFromLecturer(@PathVariable("id") int id,
+															   @RequestParam String token){
 		Set<Subject> subjects = subjectService.getSubjectFromLecturer(id);
 		return ResponseEntity.ok().body(subjects);
 	}
 	
 	@PostMapping("/lecturer/{id}/subject")
 	public ResponseEntity<?> saveSubject(@RequestBody(required=false) Subject subject,
-										 @PathVariable("id") int lectId){
-		subject.setIsAccepted(0);
-		long id = subjectService.createSubject(subject);
-		subjectService.AddLecturerToSubject(lectId, (int) id);
-		return ResponseEntity.ok().body("New Subject has been saved with ID:" + id);
+										 @PathVariable("id") int lectId,
+										 @RequestParam String token){
+		if (studentService.checkLoginToken(token)) {	
+			subject.setIsAccepted(0);
+			long id = subjectService.createSubject(subject);
+			subjectService.AddLecturerToSubject(lectId, (int) id);
+			return ResponseEntity.ok().body("New Subject has been saved with ID:" + id);
+		}
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error Message");
 	}
 	
 	@GetMapping("/subject")

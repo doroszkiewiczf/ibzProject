@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ibz.edu.hib.model.Event;
 import ibz.edu.spring.service.EventService;
+import ibz.edu.spring.service.StudentService;
 
 @RestController
 public class EventController {
 
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private StudentService studentService;
 	
 	@GetMapping("/group/{id}/event")
 	public ResponseEntity<ArrayList<Event>> getEventFromGroup(@PathVariable("id") int id){
@@ -30,13 +35,18 @@ public class EventController {
 	}
 	
 	@PostMapping("/group/{id}/event")
-	public ResponseEntity<?> saveEvent(@RequestBody(required = false) Event event,
-									   @PathVariable("id") int groupId){
-		event.setGroupId(groupId);
-		if (event.getEventDate() == null) {
-			event.setEventDate(LocalDate.now());
-		}
-		long id = eventService.createEvent(event);
-		return ResponseEntity.ok().body("New event has been saved with ID:" + id);
+	public ResponseEntity saveEvent(@RequestBody(required = false) Event event,
+									   @PathVariable("id") int groupId,
+									   @RequestParam String token){
+		
+		if (studentService.checkLoginToken(token)) {	
+			event.setGroupId(groupId);
+			if (event.getEventDate() == null) {
+				event.setEventDate(LocalDate.now());
+			}
+			long id = eventService.createEvent(event);
+			return ResponseEntity.ok().body("New event has been saved with ID:" + id);
+		}else
+			return  ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error Message");
 	}
 }
