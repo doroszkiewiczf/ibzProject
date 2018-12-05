@@ -31,4 +31,9 @@ public class GroupServiceImpl implements GroupService{
 		return groupDAO.getGroupFromStudent(studentId);
 	}
 
+	@Override
+	public long joinGroup(int subjectId, int groupId) {
+		return groupDAO.joinGroup(subjectId, groupId);
+	}
+
 }

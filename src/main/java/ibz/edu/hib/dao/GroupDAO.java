@@ -9,6 +9,7 @@ public interface GroupDAO {
 	public long createGroup(Group group);
 	public ArrayList<Group> getGroupList();
 	public Set<Group> getGroupFromStudent(int studentId);
+	public long joinGroup(int subjectId, int groupId);
 	
 	
 }

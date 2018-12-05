@@ -58,4 +58,14 @@ public class GroupDAOImpl implements GroupDAO{
         return groupSet;
 	}
 
+	public long joinGroup(int subjectId, int groupId) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		String sql = String.format("INSERT INTO eduplatformdb.student_group (StudentId,GroupId) VALUES(%s,%s);",subjectId, groupId);
+		session.createSQLQuery(sql).executeUpdate();
+		session.getTransaction().commit();
+		session.close();
+		return groupId;
+	}
+
 }
