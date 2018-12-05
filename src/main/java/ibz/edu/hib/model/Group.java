@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +28,8 @@ public class Group implements Serializable {
 	private Integer id;
 	private String name;
 	private Set<Student> students;
+	@Transient
+	private String token;
 	
 	
 	public Group() {
@@ -54,6 +57,13 @@ public class Group implements Serializable {
 	}
 	public void setStudents(Set<Student> students) {
 		this.students = students;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package ibz.edu.hib.model;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "eduplatformdb.Event")
@@ -22,6 +24,8 @@ public class Event implements Serializable {
 	private LocalDate eventDate;
 	private String description;
 	private Integer groupId;
+	@Transient
+	private String token;
 	
 	public Event(){
 		
@@ -63,6 +67,14 @@ public class Event implements Serializable {
 	}
 	public void setGroupId(Integer groupId) {
 		this.groupId = groupId;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

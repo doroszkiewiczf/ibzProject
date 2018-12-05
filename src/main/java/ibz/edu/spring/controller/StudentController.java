@@ -1,8 +1,10 @@
 package ibz.edu.spring.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,11 +64,13 @@ public class StudentController {
 		String login = json.get("login");
 		String password = json.get("password");
 		System.out.println(login);
-		boolean logged = studentService.checkLogin(login, password);
-		if (logged) {
-			String token = BCrypt.hashpw(login, BCrypt.gensalt());
+		Student student = studentService.checkLogin(login, password);
+		if (student!=null) {
+			String token = RandomStringUtils.random(50, true, true);
 			studentService.addLoginToken(token);
-			return ResponseEntity.ok().body(token);
+			student.setToken(token);
+			student.setPassword(" ");
+			return ResponseEntity.ok().body(student);
 		}
 		else
 			return ResponseEntity.ok().body("Nie zalogowano");

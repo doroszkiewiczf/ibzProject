@@ -20,6 +20,8 @@ public class Student implements Serializable {
 	private String password;
 	private Set<Group> groups;
 	private Integer permission;
+	@Transient
+	private String token;
 	
 
 	public Student() {
@@ -82,6 +84,14 @@ public class Student implements Serializable {
 
 	public void setPermission(Integer permission) {
 		this.permission = permission;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 }

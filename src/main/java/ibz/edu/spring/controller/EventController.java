@@ -36,9 +36,9 @@ public class EventController {
 	
 	@PostMapping("/group/{id}/event")
 	public ResponseEntity saveEvent(@RequestBody(required = false) Event event,
-									   @PathVariable("id") int groupId,
-									   @RequestParam String token){
+									   @PathVariable("id") int groupId){
 		
+		String token = event.getToken();
 		if (studentService.checkLoginToken(token)) {	
 			event.setGroupId(groupId);
 			if (event.getEventDate() == null) {

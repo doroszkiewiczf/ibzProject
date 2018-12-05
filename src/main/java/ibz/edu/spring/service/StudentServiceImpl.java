@@ -36,18 +36,18 @@ public class StudentServiceImpl implements StudentService {
 		return studentDAO.get(id);
 	}
 
-	public boolean checkLogin(String login, String pass) {
+	public Student checkLogin(String login, String pass) {
 		ArrayList <Student> studentList = studentDAO.getStudentList();
 		for (Student s: studentList) {
 			if (s.getLogin().equals(login)){
 				if (BCrypt.checkpw(pass, s.getPassword())) {
-					return true;
+					return s;
 				}
 				else
-					return false;
+					return null;
 			}
 		}
-		return false; 
+		return null; 
 	}
 
 	public void addLoginToken(String token) {

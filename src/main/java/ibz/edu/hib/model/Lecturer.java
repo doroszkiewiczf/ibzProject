@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,6 +47,8 @@ public class Lecturer implements Serializable {
 	private Integer CommentsNum;
 	private Set<Subject> subjects;
 	private int isAccepted;
+	@Transient
+	private String token;
 	
 	
 	public Lecturer() {
@@ -123,6 +126,14 @@ public class Lecturer implements Serializable {
 
 	public void setIsAccepted(int isAccepted) {
 		this.isAccepted = isAccepted;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

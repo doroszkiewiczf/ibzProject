@@ -32,8 +32,8 @@ public class GroupController {
 		return ResponseEntity.ok().body(groups);
 	}
 	@PostMapping("/group")
-	public ResponseEntity<?> saveGroup(@RequestBody(required = false) Group group,
-									   @RequestParam String token){
+	public ResponseEntity<?> saveGroup(@RequestBody(required = false) Group group){
+		String token = group.getToken();
 		if (studentService.checkLoginToken(token)) {	
 			long id = groupService.createGroup(group);
 			return ResponseEntity.ok().body("New Group has been saved with ID:" + id);

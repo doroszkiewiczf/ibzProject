@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,6 +35,8 @@ public class Subject implements Serializable{
 	private float workEffort;
 	private Integer commentsNum;
 	private Integer isAccepted;
+	@Transient
+	private String token;
 
 	private Set<Lecturer> lecturers;
 	
@@ -110,6 +113,14 @@ public class Subject implements Serializable{
 
 	public void setIsAccepted(Integer isAccepted) {
 		this.isAccepted = isAccepted;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	

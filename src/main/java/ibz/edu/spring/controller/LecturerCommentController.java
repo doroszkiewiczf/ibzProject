@@ -28,16 +28,15 @@ public class LecturerCommentController {
 	private StudentService studentService;
 	
 	@GetMapping("/lecturer/{id}/comments")
-	public ResponseEntity<List<LecturerComment>> list(@PathVariable("id") int id,
-													  @RequestParam String token){
+	public ResponseEntity<List<LecturerComment>> list(@PathVariable("id") int id){
 		List<LecturerComment> comments = lecturerCommentService.getLecturerCommentList(id);
 		return ResponseEntity.ok().body(comments);
 	}
 	
 	@PostMapping("/lecturer/{id}/comments")
 	public ResponseEntity<?> save(@RequestBody(required = false) LecturerComment comment,
-					              @PathVariable("id") int lectId,
-					              @RequestParam String token){
+					              @PathVariable("id") int lectId){
+		String token = comment.getToken();
 		if (studentService.checkLoginToken(token)) {	
 			if (comment.getDate() == null) {
 				comment.setDate(LocalDate.now());

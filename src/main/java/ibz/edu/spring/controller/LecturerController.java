@@ -34,15 +34,14 @@ public class LecturerController {
 	}
 	
 	@GetMapping("/lecturer/{id}")
-	public ResponseEntity<Lecturer> get(@PathVariable("id") int id,
-										@RequestParam String token) {
+	public ResponseEntity<Lecturer> get(@PathVariable("id") int id) {
 	   Lecturer lecturer = lecturerService.get(id);
 	   return ResponseEntity.ok().body(lecturer);
 	}
 	
 	@PostMapping("/lecturer")
-	public ResponseEntity<?> save(@RequestBody(required = false) Lecturer lecturer,
-								  @RequestParam String token){
+	public ResponseEntity<?> save(@RequestBody(required = false) Lecturer lecturer){
+		String token = lecturer.getToken();
 		if (studentService.checkLoginToken(token)) {	
 			lecturer.setIsAccepted(0);
 			long id = lecturerService.createLecturer(lecturer);

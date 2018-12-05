@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "eduplatformdb.lecturer_comment")
@@ -26,6 +27,8 @@ public class LecturerComment implements Serializable {
 	private String text;
 	private String author;
 	private LocalDate date;
+	@Transient
+	private String token;
 	
 	public LecturerComment() {
 		
@@ -92,6 +95,14 @@ public class LecturerComment implements Serializable {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+	@Transient
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

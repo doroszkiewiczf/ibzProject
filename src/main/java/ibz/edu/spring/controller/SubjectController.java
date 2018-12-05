@@ -28,16 +28,15 @@ public class SubjectController {
 	private StudentService studentService;
 	
 	@GetMapping("/lecturer/{id}/subject")
-	public ResponseEntity<Set<Subject>> getSubjectFromLecturer(@PathVariable("id") int id,
-															   @RequestParam String token){
+	public ResponseEntity<Set<Subject>> getSubjectFromLecturer(@PathVariable("id") int id){
 		Set<Subject> subjects = subjectService.getSubjectFromLecturer(id);
 		return ResponseEntity.ok().body(subjects);
 	}
 	
 	@PostMapping("/lecturer/{id}/subject")
 	public ResponseEntity<?> saveSubject(@RequestBody(required=false) Subject subject,
-										 @PathVariable("id") int lectId,
-										 @RequestParam String token){
+										 @PathVariable("id") int lectId){
+		String token = subject.getToken();
 		if (studentService.checkLoginToken(token)) {	
 			subject.setIsAccepted(0);
 			long id = subjectService.createSubject(subject);
